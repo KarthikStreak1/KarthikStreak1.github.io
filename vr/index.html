@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Karthik Streak</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene cursor="rayOrigin: mouse">
+        <!-- 360-degree image background (you can replace with your own image URL) -->
+        <a-sky color="lightblue"></a-sky>
+
+        <!-- "Hi" text (above the popup) -->
+        <a-text
+            value="Karthik"
+            position="0 2 -4" <!-- Adjusted the position to place it above the popup -->
+            scale="2 2 2"
+            color="white"
+            side="double"
+        ></a-text>
+
+        <!-- Camera and cursor (clickable) -->
+        <a-camera look-controls wasd-controls position="0 1.6 0">
+            <a-cursor
+                fuse="false"
+                raycaster="objects: .popup-trigger, .popup-button"
+                material="color: red; shader: flat"
+            ></a-cursor>
+        </a-camera>
+
+        <!-- Room-like environment -->
+        <a-entity geometry="primitive: box; width: 10; height: 5; depth: 10;" material="color: #00f; opacity: 0.7" position="0 2.5 -5" rotation="0 0 0"></a-entity>
+
+        <!-- Clickable plane to trigger the popup -->
+        <a-plane class="popup-trigger" position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="transparent"></a-plane>
+
+        <!-- Popup (visible in front) -->
+        <a-entity
+            position="0 1.6 -2" <!-- Updated position to place it in front of the camera -->
+            rotation="0 0 0"
+        >
+            <a-plane position="0 0 -2" width="4" height="2" color="#333" id="popup">
+                <!-- Text on the popup -->
+                <a-text value="Do you want to see my resume?" align="center" color="white" position="0 0 0.1"></a-text
+
+                <!-- "Yes" button -->
+                <a-plane class="popup-button" position="-1.2 -0.5 0.1" width="0.5" height="0.2" color="green" id="popupYes">
+                    <a-text value="Yes" align="center" color="white" position="0 0 0.1"></a-text>
+                </a-plane>
+
+                <!-- "No" button -->
+                <a-plane class="popup-button" position="1.2 -0.5 0.1" width="0.5" height="0.2" color="red" id="popupNo">
+                    <a-text value="No" align="center" color="white" position="0 0 0.1"></a-text>
+                </a-plane>
+            </a-plane>
+        </a-entity>
+    </a-scene>
+
+    <script>
+        // Function to show/hide the popup
+        function togglePopup(show) {
+            const popup = document.querySelector('#popup');
+            popup.setAttribute('visible', show);
+        }
+
+        // Click event listener for the "Yes" button on the popup
+        document.querySelector('#popupYes').addEventListener('click', function () {
+            // Redirect to the specified link when "Yes" is clicked
+            window.location.href = "https://drive.google.com/file/d/1wbwNYKyhM-5S5k9IfA64aPDtnSGx4Edg/view?usp=share_link";
+        });
+
+        // Click event listener for the "No" button on the popup
+        document.querySelector('#popupNo').addEventListener('click', function () {
+            // Change the text on the popup when "No" is clicked
+            const popupText = document.querySelector('#popup a-text');
+            popupText.setAttribute('value', 'Thank you for visiting again');
+        });
+
+        // Click event listener for the clickable plane to show the popup
+        const clickableElements = document.querySelectorAll('.popup-trigger');
+        clickableElements.forEach((el) => {
+            el.addEventListener('click', function () {
+                togglePopup(true); // Show the popup
+            });
+        });
+    </script>
+</body>
+</html>
